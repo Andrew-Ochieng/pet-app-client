@@ -2,3 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+/* custom-css */
+.form-input {
+    @apply input input-bordered input-info my-4 w-full 
+}
+  
+.form-label {
+    @apply text-xl 
+}
+  
+.title {
+    @apply text-pink-600 font-black md:text-6xl text-3xl text-center md:tracking-wide md:mb-8 mb-4
+}
+  
+.content-title {
+    @apply md:text-4xl text-2xl font-black text-pink-800 md:mb-4 mb-2
+}
