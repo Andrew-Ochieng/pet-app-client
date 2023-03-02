@@ -1,38 +1,38 @@
 import { useState } from "react"
 
 const AddPet = () => {
-    const [newProjectFormData, setNewProjectFormData] = useState(
+    const [newPetFormData, setNewPetFormData] = useState(
         {
             name: "",
-            topic: "",
-            details: "",
+            breed: "",
+            image_url: "",
             user_id: JSON.parse(localStorage.getItem('user') || false)?.id
         }
     )
 
     function updateFormData(e){
 
-        setNewProjectFormData(newProjectFormData => {
-            return {...newProjectFormData, [e.target.id]: e.target.value}
+        setNewPetFormData(newPetFormData => {
+            return {...newPetFormData, [e.target.id]: e.target.value}
         })
 
     }
 
     const handleForm = (e) => {
         e.preventDefault();
-        console.log(newProjectFormData)
+        console.log(newPetFormData)
 
         // fetch(`${apiHost}/projects`, {
         //     method: "POST",
         //     headers: {
         //         "Content-Type": "application/json"
         //     },
-        //     body: JSON.stringify(newProjectFormData)
+        //     body: JSON.stringify(newPetFormData)
         // })
         // .then(res => {
         //     if(res.ok){
         //         res.json().then(data => {
-        //             setNewProjectFormData(
+        //             setNewPetFormData(
         //                 {
         //                     name: "",
         //                     topic: "",
@@ -61,7 +61,7 @@ const AddPet = () => {
                             type="text"  
                             class="input-form"
                             placeholder="Project name"
-                            value={newProjectFormData.name}
+                            value={newPetFormData.name}
                             onChange={updateFormData} 
                         />
                     </div>
@@ -74,7 +74,7 @@ const AddPet = () => {
                             type="text" 
                             class="input-form"
                             placeholder="Topic"
-                            value={newProjectFormData.topic}
+                            value={newPetFormData.topic}
                             onChange={updateFormData} 
                         />
                     </div>
@@ -87,7 +87,7 @@ const AddPet = () => {
                             class="textarea textarea-info w-full my-4" 
                             rows='3'
                             placeholder="Details"
-                            value={newProjectFormData.details}
+                            value={newPetFormData.details}
                             onChange={updateFormData}
                         ></textarea>
                     </div>
