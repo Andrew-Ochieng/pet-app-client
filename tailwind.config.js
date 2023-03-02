@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'hero': 'url(/src/assets/hero-image.jpg)'
+      },
+    },
   },
   plugins: [require("daisyui")],
 }
