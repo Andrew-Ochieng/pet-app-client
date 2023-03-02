@@ -5,11 +5,17 @@ import { FaBars, FaTimes } from "react-icons/fa"
 const Navbar = () => {
     const [open, setOpen] = useState(false)
 
-    const navLinks = [
-        {name: "About", route: "/about"},
-        {name: "Services", route: "/services"},
-        {name: "Contact", route: "/contact"}
-    ]
+    // function logoutUser(){
+    //     localStorage.clear()
+    //     setLoggedIn(false)
+        
+    //     fetch(`${apiHost}/logout`, {method: 'DELETE'})
+    //     .then(res => {
+    //         if(!res.ok){
+    //             res.json().then(error => console.warn(error))
+    //         }
+    //     })
+    // }
 
     return ( 
         <>
@@ -27,16 +33,14 @@ const Navbar = () => {
                     
                     <div className='md:flex hidden text-gray-700'>
                         <ul className="md:flex items-center md:text-lg font-medium">
-                            {navLinks.map((navLink) => (
-                                <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
-                                    <Link to={navLink.route}>{navLink.name}</Link>
-                                </li>
-                            ))}
+                            <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                                    <Link to='/'>Home</Link>
+                            </li>
                             <li className=' md:my-0 my-4'>
-                                <Link to='/login' className="mx-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
+                                <Link to='/login' className="mx-4 bg-white px-3 md:py-2 py-1 hover:bg-pink-800 hover:text-white duration-500" href='https://learn.vabrisetech.co.ke/'>
                                     Login
                                 </Link>
-                                <Link to='/signup' className="mx-4 bg-pink-800 px-3 py-1 hover:bg-white text-white hover:text-pink-800 duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
+                                <Link to='/signup' className="mx-4 bg-pink-800 px-3 md:py-2 py-1 hover:bg-white text-white hover:text-pink-800 duration-500" href='https://learn.vabrisetech.co.ke/'>
                                     Signup
                                 </Link>
                             </li>
@@ -51,11 +55,9 @@ const Navbar = () => {
                         </button> 
                     </div>
                     <ul className="flex flex-col items-center text-center text-base font-medium">
-                        {navLinks.map((navLink) => (
-                            <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white pb-6 w-1/3 border-b-2'>
-                                <Link to={navLink.route}>{navLink.name}</Link>
-                            </li>
-                        ))}
+                        <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                            <Link to='/'>Home</Link>
+                        </li>
                         <li className='flex flex-col md:my-0 my-4' onClick={() => setOpen((prev) => !prev)}>
                             <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
                                 Login

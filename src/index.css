@@ -5,7 +5,7 @@
 
 
 /* custom-css */
-.form-input {
+.input-form {
     @apply input input-bordered input-info my-4 w-full 
 }
   
