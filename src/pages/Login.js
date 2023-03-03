@@ -1,25 +1,50 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import loginImg from "../assets/login.png"
+import { useEffect, useState } from "react";
+import { Link , useNavigate} from "react-router-dom";
+import loginImage from "../assets/login.png"
+import { apiHost } from "../Variables";
 
-const Login = () => {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+const Login = ({loggedIn, setLoggedIn}) => {
+    const [loginFormData, setLoginFormData] = useState({username: "", password: ""})
+    const navigate = useNavigate()
 
-    const handleForm = (e) => {
+    useEffect(()=>{
+        if(loggedIn){
+            navigate('/pets')
+        }
+    }, [])
+
+    function updateFormData(e){
+        setLoginFormData(
+            loginFormData => ({
+                ...loginFormData,
+                [e.target.id]: e.target.value
+            })
+        )
+    }
+
+    function handleForm(e) {
         e.preventDefault();
-        e.target.reset();   
 
-        fetch('/login', {
+        fetch(`${apiHost}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({username, password})
+            body: JSON.stringify(loginFormData)
         })
-            .then()
-
-        alert("hello")
+        .then(result => {
+            if(result.ok){
+                result.json().then(data => {
+                    localStorage.setItem('loggedIn', true)
+                    localStorage.setItem('user', JSON.stringify(data))
+                    setLoginFormData({username: "", password: ""})
+                    setLoggedIn(true)
+                    navigate('/pets')
+                })
+            }else {
+                result.json().then(error => console.warn(error))
+            }
+        })
     }
 
     return ( 
@@ -27,7 +52,7 @@ const Login = () => {
             <div className="flex flex-col justify-center items-center min-h-screen md:mx-16 mx-6">
                 <div className="sm:flex justify-center items-center">
                     <div className="md:w-1/2">
-                        <img src={loginImg} alt='login-image'/>
+                        <img src={loginImage} alt='login-image'/>
                     </div>
                     <div>
                         <h1 className="font-bold uppercase md:text-2xl text-xl text-gray-800">Login</h1>
@@ -37,8 +62,8 @@ const Login = () => {
                                     type="text" 
                                     placeholder="Enter username.." 
                                     class="input-form"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)} 
+                                    value={loginFormData.username}
+                                    onChange={updateFormData} 
                                 />
                             </div>
                             <div>
@@ -46,8 +71,8 @@ const Login = () => {
                                     type="password" 
                                     placeholder="Enter password.." 
                                     class="input-form"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)} 
+                                    value={loginFormData.password}
+                                    onChange={updateFormData}  
                                 />
                             </div>
                             <button className="btn btn-secondary w-full">

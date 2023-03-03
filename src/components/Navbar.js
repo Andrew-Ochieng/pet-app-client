@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa"
+import { apiHost } from "../Variables";
+
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
