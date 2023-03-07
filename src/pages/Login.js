@@ -7,13 +7,13 @@ const Login = ({loggedIn, setLoggedIn}) => {
     const [loginFormData, setLoginFormData] = useState({username: "", password: ""})
     const navigate = useNavigate()
 
-    useEffect(()=>{
+    useEffect(() => {
         if(loggedIn){
             navigate('/pets')
         }
     }, [])
 
-    function updateFormData(e){
+    function handleFormData(e){
         setLoginFormData(
             loginFormData => ({
                 ...loginFormData,
@@ -32,17 +32,17 @@ const Login = ({loggedIn, setLoggedIn}) => {
             },
             body: JSON.stringify(loginFormData)
         })
-        .then(result => {
-            if(result.ok){
-                result.json().then(data => {
+        .then(data => {
+            if(data.ok){
+                data.json().then(data => {
                     localStorage.setItem('loggedIn', true)
                     localStorage.setItem('user', JSON.stringify(data))
                     setLoginFormData({username: "", password: ""})
                     setLoggedIn(true)
                     navigate('/pets')
                 })
-            }else {
-                result.json().then(error => console.warn(error))
+            } else {
+                data.json().then(error => console.warn(error))
             }
         })
     }
@@ -58,21 +58,23 @@ const Login = ({loggedIn, setLoggedIn}) => {
                         <h1 className="font-bold uppercase md:text-2xl text-xl text-gray-800">Login</h1>
                         <form onSubmit={handleForm}>
                             <div>
-                                <input 
+                                <input
+                                    id="username" 
                                     type="text" 
                                     placeholder="Enter username.." 
                                     class="input-form"
                                     value={loginFormData.username}
-                                    onChange={updateFormData} 
+                                    onChange={handleFormData} 
                                 />
                             </div>
                             <div>
                                 <input 
+                                    id="password"
                                     type="password" 
                                     placeholder="Enter password.." 
                                     class="input-form"
                                     value={loginFormData.password}
-                                    onChange={updateFormData}  
+                                    onChange={handleFormData}  
                                 />
                             </div>
                             <button className="btn btn-secondary w-full">

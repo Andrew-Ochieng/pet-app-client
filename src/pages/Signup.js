@@ -1,26 +1,52 @@
-import { useState } from "react";
-import { Link } from "react-router-dom"
-import signupImg from '../assets/signup.png'
+import { useState , useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom"
+import signupImage from '../assets/signup.png'
+import { apiHost } from "../Variables";
 
 const Signup = () => {
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
+    const [signupFormData, setSignupFormData] = useState(
+        {email: "", username: "", password: ""}
+    )
 
-    const handleForm = (e) => {
+    useEffect(()=>{
+        if(loggedIn){
+            navigate('/pets')
+        }
+    }, [])
+
+    function updateFormData(e){
+        setSignupFormData(
+            signupFormData => ({
+                ...signupFormData,
+                [e.target.id]: e.target.value
+            })
+        )
+    }
+
+    function handleForm(e) {
         e.preventDefault();
-        e.target.reset();
 
-        fetch('/login', {
+        fetch(`${apiHost}/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({username, password})
+            body: JSON.stringify(signupFormData)
         })
-            .then()
-
-        alert("hello")
+        .then(result => {
+            if(result.ok){
+                result.json().then(data => {
+                    localStorage.setItem('loggedIn', true)
+                    localStorage.setItem('user', JSON.stringify(data))
+                    setSignupFormData({email: "", username: "", password: ""})
+                    setLoggedIn(true)
+                    navigate('/pets')
+                })
+            } else {
+                result.json().then(error => console.warn(error))
+            }
+        })
     }
 
     return ( 
@@ -28,7 +54,7 @@ const Signup = () => {
             <div className="flex flex-col justify-center items-center min-h-screen md:mx-16 mx-6">
             <div className="sm:flex justify-center items-center">
                     <div className="md:w-1/2">
-                        <img src={signupImg} alt='login-image'/>
+                        <img src={signupImage} alt='login-image'/>
                     </div>
                     <div>
                         <h1 className="font-bold uppercase md:text-2xl text-xl text-gray-800">Signup</h1>
@@ -38,8 +64,8 @@ const Signup = () => {
                                     type="text" 
                                     placeholder="Enter username.." 
                                     class="input-form"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)} 
+                                    value={signupFormData.username}
+                                    onChange={updateFormData} 
                                 />
                             </div>
                             <div>
@@ -47,8 +73,8 @@ const Signup = () => {
                                     type="email" 
                                     placeholder="Enter email.." 
                                     class="input-form"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)} 
+                                    value={signupFormData.email}
+                                    onChange={updateFormData} 
                                 />
                             </div>
                             <div>
@@ -56,8 +82,8 @@ const Signup = () => {
                                     type="password" 
                                     placeholder="Enter password.." 
                                     class="input-form"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)} 
+                                    value={signupFormData.password}
+                                    onChange={updateFormData}  
                                 />
                             </div>
                             <button className="btn btn-secondary w-full">

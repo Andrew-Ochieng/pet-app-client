@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { apiHost } from "../../Variables";
+
 
 const AddPet = () => {
-    const [newPetFormData, setNewPetFormData] = useState(
+    const [petFormData, setPetFormData] = useState(
         {
             name: "",
             breed: "",
@@ -12,39 +14,39 @@ const AddPet = () => {
 
     function updateFormData(e){
 
-        setNewPetFormData(newPetFormData => {
-            return {...newPetFormData, [e.target.id]: e.target.value}
+        setPetFormData(petFormData => {
+            return {...petFormData, [e.target.id]: e.target.value}
         })
 
     }
 
     const handleForm = (e) => {
         e.preventDefault();
-        console.log(newPetFormData)
+        console.log(petFormData)
 
-        // fetch(`${apiHost}/projects`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(newPetFormData)
-        // })
-        // .then(res => {
-        //     if(res.ok){
-        //         res.json().then(data => {
-        //             setNewPetFormData(
-        //                 {
-        //                     name: "",
-        //                     topic: "",
-        //                     details: "",
-        //                     user_id: JSON.parse(localStorage.getItem('user') || false)?.id
-        //                 }
-        //             )
-        //         })
-        //     }else {
-        //         res.json().then(error => console.warn(error))
-        //     }
-        // })
+        fetch(`${apiHost}/pets`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(petFormData)
+        })
+        .then(res => {
+            if(res.ok){
+                res.json().then(data => {
+                    setPetFormData(
+                        {
+                            name: "",
+                            breed: "",
+                            image_url: "",
+                            user_id: JSON.parse(localStorage.getItem('user') || false)?.id
+                        }
+                    )
+                })
+            }else {
+                res.json().then(error => console.warn(error))
+            }
+        })
     }
 
     return ( 
@@ -54,42 +56,42 @@ const AddPet = () => {
                 <form onSubmit={handleForm}>
                     <div>
                         <label className='form-label'> 
-                            Project Name
+                            Pet name
                         </label>
                         <input 
                             id="name"
                             type="text"  
                             class="input-form"
-                            placeholder="Project name"
-                            value={newPetFormData.name}
+                            placeholder="Pet name"
+                            value={petFormData.name}
                             onChange={updateFormData} 
                         />
                     </div>
                     <div>
                         <label className='form-label'> 
-                            Subject/ Topic
+                            Breed
                         </label>
                         <input 
-                            id="topic"
+                            id="breed"
                             type="text" 
                             class="input-form"
-                            placeholder="Topic"
-                            value={newPetFormData.topic}
+                            placeholder="Breed"
+                            value={petFormData.breed}
                             onChange={updateFormData} 
                         />
                     </div>
                     <div>
                         <label className='form-label'> 
-                            Project Details
+                            Image URL
                         </label>
-                        <textarea 
-                            id="details"
+                        <input 
+                            id="image_url"
                             class="textarea textarea-info w-full my-4" 
                             rows='3'
-                            placeholder="Details"
-                            value={newPetFormData.details}
+                            placeholder="Image URL"
+                            value={petFormData.image_url}
                             onChange={updateFormData}
-                        ></textarea>
+                        />
                     </div>
                     <button className="btn btn-secondary w-full">
                         Submit

@@ -4,20 +4,20 @@ import { FaBars, FaTimes } from "react-icons/fa"
 import { apiHost } from "../Variables";
 
 
-const Navbar = () => {
+const Navbar = ({loggedIn, setLoggedIn}) => {
     const [open, setOpen] = useState(false)
 
-    // function logoutUser(){
-    //     localStorage.clear()
-    //     setLoggedIn(false)
+    function logoutUser(){
+        localStorage.clear()
+        setLoggedIn(false)
         
-    //     fetch(`${apiHost}/logout`, {method: 'DELETE'})
-    //     .then(res => {
-    //         if(!res.ok){
-    //             res.json().then(error => console.warn(error))
-    //         }
-    //     })
-    // }
+        fetch(`${apiHost}/logout`, {method: 'DELETE'})
+        .then(res => {
+            if(!res.ok){
+                res.json().then(error => console.warn(error))
+            }
+        })
+    }
 
     return ( 
         <>
@@ -38,6 +38,9 @@ const Navbar = () => {
                             <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
                                     <Link to='/'>Home</Link>
                             </li>
+                            <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                                    <Link to='/pets'>Pets</Link>
+                            </li>
                             <li className=' md:my-0 my-4'>
                                 <Link to='/login' className="mx-4 bg-white px-3 md:py-2 py-1 hover:bg-pink-800 hover:text-white duration-500" href='https://learn.vabrisetech.co.ke/'>
                                     Login
@@ -57,17 +60,28 @@ const Navbar = () => {
                         </button> 
                     </div>
                     <ul className="flex flex-col items-center text-center text-base font-medium">
-                        <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                        <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
                             <Link to='/'>Home</Link>
                         </li>
-                        <li className='flex flex-col md:my-0 my-4' onClick={() => setOpen((prev) => !prev)}>
-                            <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
-                                Login
-                            </Link>
-                            <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-1 hover:bg-white text-white hover:text-pink-800 duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
-                                Signup
-                            </Link>
-                        </li>
+                        { !loggedIn ?
+                            <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4' onClick={() => setOpen((prev) => !prev)}>
+                                <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
+                                    Login
+                                </Link>
+                                <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-1 hover:bg-white text-white hover:text-pink-800 duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
+                                    Signup
+                                </Link>
+                            </li> :
+                            <>
+                                <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                                    <Link to='/pets'>Pets</Link>
+                                </li>                              
+                                <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'
+                                    onClick={logoutUser}>
+                                    Logout
+                                </button> 
+                            </>
+                        }
                     </ul>
                 </div>
             </nav>
