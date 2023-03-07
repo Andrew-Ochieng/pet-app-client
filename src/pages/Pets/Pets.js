@@ -1,13 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate} from "react-router-dom";
 import { apiHost } from "../../Variables";
-import { appContext } from "../../AppContextProvider";
 
 
 const Pets = ({loggedIn}) => {
     const navigate = useNavigate()
     const [pets, setPets] = useState([])
-    const {setPetOnEdit} = useContext(appContext)
 
     useEffect(()=>{
         if(!loggedIn){
@@ -16,18 +14,24 @@ const Pets = ({loggedIn}) => {
     }, [])
 
     useEffect(()=>{
-        fetch(`${apiHost}/${`pets/${JSON.parse(localStorage.getItem('user') || false)?.id}`}`)
-            .then((res) => {
-                if(res.ok){
-                    res.json().then(data => {
-                        setPets(data)
-                        console.log(data)
-                    })
-                } else {
-                    res.json().then(error => console.warn(error))
-                }
-            })    
+        fetch(`${apiHost}/pets`)
+            .then((res) => res.json())
+            .then((pets) => {
+                setPets(pets)
+                console.log(pets)
+            })   
     }, [])
+
+    // useEffect(()=>{
+    //     fetch(`${apiHost}/${`my-pets/${JSON.parse(localStorage.getItem('user') || false)?.id}`}`)
+    //         .then((res) => {
+    //             if(res.ok){
+    //                 res.json().then(data => setPets(data))
+    //             }else {
+    //                 res.json().then(error => console.warn(error))
+    //             }
+    //         })    
+    // }, [])
 
     function handleDelete(deletedPet){
         fetch(`${apiHost}/pets/${deletedPet.id}`, {method: 'DELETE'})
@@ -48,7 +52,7 @@ const Pets = ({loggedIn}) => {
                     <h1 className="md:text-2xl text-xl font-bold">ALL PETS</h1>
                     <div className="flex gap-5">
                         <button onClick={()=>navigate('/add-pet')}
-                            className="border-solid border border-blue py-2 px-5 w-40 rounded-md bg-green-300 hover:bg-green-400">
+                            className="border-solid border border-blue py-2 px-5 w-40 rounded-md bg-pink-400 hover:bg-pink-500">
                             Add New
                         </button>
                     </div>
@@ -63,14 +67,21 @@ const Pets = ({loggedIn}) => {
                             <th></th>
                         </tr>
                     }
-                    {pets.map(pet => (
-                            <tr className="border-x-solid border border-sky">
+                    {pets.map((pet) => (
+                            <tr key={pet.id} className="border-x-solid border border-sky">
                                 <td className="px-3" >{pet.name}</td>
                                 <td className="px-3">{pet.breed}</td>
                                 <td className="px-3 max-w-sm">
                                     <img src={pet.image_url} alt='pet-image'/>
                                 </td>
-                                <td className="px-5"><button className="border-solid border border-blue py-1 px-5 rounded-md bg-red-300 hover:bg-red-400 w-100" onClick={()=>handleDelete(pet)}>Delete</button></td>
+                                <td className="px-5">
+                                    <button 
+                                        className="border-solid border border-blue py-2 px-4 rounded-md bg-green-300 hover:bg-green-400 w-full" 
+                                        onClick={()=>handleDelete(pet)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                 </table>

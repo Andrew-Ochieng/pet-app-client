@@ -34,18 +34,34 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                     </div>
                     
                     <div className='md:flex hidden text-gray-700'>
-                        <ul className="md:flex items-center md:text-lg font-medium">
-                            <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
-                                    <Link to='/'>Home</Link>
+                        <ul className="flex items-center text-center text-base font-medium">
+                            <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 hover:text-white'>
+                                <Link to='/'>Home</Link>
                             </li>
-                            <li className=' md:my-0 my-4'>
-                                <Link to='/login' className="mx-4 bg-white px-3 md:py-2 py-1 hover:bg-pink-800 hover:text-white duration-500" href='https://learn.vabrisetech.co.ke/'>
-                                    Login
-                                </Link>
-                                <Link to='/signup' className="mx-4 bg-pink-800 px-3 md:py-2 py-1 hover:bg-white text-white hover:text-pink-800 duration-500" href='https://learn.vabrisetech.co.ke/'>
-                                    Signup
-                                </Link>
-                            </li>
+                            { !loggedIn ?
+                                <>
+                                    <li onClick={() => setOpen((prev) => !prev)} className=''>
+                                        <Link to='/login' className="mx-4 my-4 bg-white px-3 py-2 hover:bg-pink-800 hover:text-white duration-500">
+                                            Login
+                                        </Link>
+                                    </li>
+                                    <li onClick={() => setOpen((prev) => !prev)} className=''>
+                                        <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-2 hover:bg-white text-white hover:text-pink-800 duration-500">
+                                            Signup
+                                        </Link>
+                                    </li>
+                                </>
+                                :
+                                <>
+                                    <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                                        <Link to='/pets'>Pets</Link>
+                                    </li>                              
+                                    <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md"
+                                        onClick={logoutUser}>
+                                        Logout
+                                    </button> 
+                                </>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -61,19 +77,24 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                             <Link to='/'>Home</Link>
                         </li>
                         { !loggedIn ?
-                            <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4'>
-                                <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
-                                    Login
-                                </Link>
-                                <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-1 hover:bg-white text-white hover:text-pink-800 duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
-                                    Signup
-                                </Link>
-                            </li> :
+                            <>
+                                <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4'>
+                                    <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md">
+                                        Login
+                                    </Link>
+                                </li>
+                                <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4'>
+                                    <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-1 hover:bg-white text-white hover:text-pink-800 duration-500 rounded-md">
+                                        Signup
+                                    </Link>
+                                </li>
+                            </>
+                             :
                             <>
                                 <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
                                     <Link to='/pets'>Pets</Link>
                                 </li>                              
-                                <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'
+                                <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md"
                                     onClick={logoutUser}>
                                     Logout
                                 </button> 
