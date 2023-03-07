@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import signupImage from '../assets/signup.png'
 import { apiHost } from "../Variables";
 
-const Signup = () => {
+const Signup = ({loggedIn, setLoggedIn}) => {
     const navigate = useNavigate()
     const [signupFormData, setSignupFormData] = useState(
         {email: "", username: "", password: ""}

@@ -38,9 +38,6 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                             <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
                                     <Link to='/'>Home</Link>
                             </li>
-                            <li className='md:mx-4 md:my-0 my-4 hover:text-white'>
-                                    <Link to='/pets'>Pets</Link>
-                            </li>
                             <li className=' md:my-0 my-4'>
                                 <Link to='/login' className="mx-4 bg-white px-3 md:py-2 py-1 hover:bg-pink-800 hover:text-white duration-500" href='https://learn.vabrisetech.co.ke/'>
                                     Login
@@ -64,7 +61,7 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                             <Link to='/'>Home</Link>
                         </li>
                         { !loggedIn ?
-                            <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4' onClick={() => setOpen((prev) => !prev)}>
+                            <li onClick={() => setOpen((prev) => !prev)} className='flex flex-col md:my-0 my-4'>
                                 <Link to='/login' className="mx-4 my-4 bg-white px-3 py-1 hover:bg-pink-800 hover:text-white duration-500 rounded-md" href='https://learn.vabrisetech.co.ke/'>
                                     Login
                                 </Link>
