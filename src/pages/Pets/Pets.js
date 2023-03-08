@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom";
 import { apiHost } from "../../Variables";
 
@@ -22,22 +22,14 @@ const Pets = ({loggedIn}) => {
             })   
     }, [])
 
-    // useEffect(()=>{
-    //     fetch(`${apiHost}/${`my-pets/${JSON.parse(localStorage.getItem('user') || false)?.id}`}`)
-    //         .then((res) => {
-    //             if(res.ok){
-    //                 res.json().then(data => setPets(data))
-    //             }else {
-    //                 res.json().then(error => console.warn(error))
-    //             }
-    //         })    
-    // }, [])
-
     function handleDelete(deletedPet){
-        fetch(`${apiHost}/pets/${deletedPet.id}`, {method: 'DELETE'})
+        console.log(`${apiHost}/pets/${pets.id}`)
+        fetch(`${apiHost}/pets/${deletedPet.id}`, {
+            method: 'DELETE'
+        })
         .then((res) => {
             if(res.ok){
-                const newPetsList = pets.filter(pet => pet.id !== deletedPet.id)
+                const newPetsList = pets.filter((pet) => pet.id !== deletedPet.id)
                 setPets(newPetsList)
             } else {
                 res.json().then(error => console.warn(error))
@@ -51,7 +43,7 @@ const Pets = ({loggedIn}) => {
                 <div className="flex justify-between items-center my-5">
                     <h1 className="md:text-2xl text-xl font-bold">ALL PETS</h1>
                     <div className="flex gap-5">
-                        <button onClick={()=>navigate('/add-pet')}
+                        <button onClick={() => navigate('/add-pet')}
                             className="border-solid border border-blue py-2 px-5 w-40 rounded-md bg-pink-400 hover:bg-pink-500">
                             Add New
                         </button>

@@ -33,7 +33,7 @@ const AddPet = () => {
         })
         .then(res => {
             if(res.ok){
-                res.json().then(data => {
+                res.json().then((data) => {
                     setPetFormData(
                         {
                             name: "",

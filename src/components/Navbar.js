@@ -41,22 +41,22 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                             { !loggedIn ?
                                 <>
                                     <li onClick={() => setOpen((prev) => !prev)} className=''>
-                                        <Link to='/login' className="mx-4 my-4 bg-white px-3 py-2 hover:bg-pink-800 hover:text-white duration-500">
+                                        <Link to='/login' className="mx-4 bg-white px-3 py-2 hover:bg-pink-800 hover:text-white duration-500">
                                             Login
                                         </Link>
                                     </li>
                                     <li onClick={() => setOpen((prev) => !prev)} className=''>
-                                        <Link to='/signup' className="mx-4 my-4 bg-pink-800 px-3 py-2 hover:bg-white text-white hover:text-pink-800 duration-500">
+                                        <Link to='/signup' className="mx-4 bg-pink-800 px-3 py-2 hover:bg-white text-white hover:text-pink-800 duration-500">
                                             Signup
                                         </Link>
                                     </li>
                                 </>
                                 :
                                 <>
-                                    <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
+                                    <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 hover:text-white'>
                                         <Link to='/pets'>Pets</Link>
                                     </li>                              
-                                    <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md"
+                                    <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500"
                                         onClick={logoutUser}>
                                         Logout
                                     </button> 
@@ -94,7 +94,7 @@ const Navbar = ({loggedIn, setLoggedIn}) => {
                                 <li onClick={() => setOpen((prev) => !prev)} className='md:mx-4 md:my-0 my-4 hover:text-white'>
                                     <Link to='/pets'>Pets</Link>
                                 </li>                              
-                                <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500 rounded-md"
+                                <button className="mx-4 my-4 bg-white px-3 py-1 hover:bg-sky-800 hover:text-white duration-500"
                                     onClick={logoutUser}>
                                     Logout
                                 </button> 
