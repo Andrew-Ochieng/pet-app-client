@@ -3,7 +3,19 @@ import { useNavigate} from "react-router-dom";
 import { apiHost } from "../../Variables";
 
 
-const Pets = ({loggedIn}) => {
+const Pets = ({loggedIn, colRef, getDocs}) => {
+    getDocs(colRef)
+        .then((snapshot) => {
+            // console.log(snapshot.docs)
+            let pets = []
+            snapshot.docs.forEach((doc) => {
+            pets.push({...doc.data(), id: doc.id})
+            })
+            console.log(pets)
+            setPets(pets)
+        })
+
+
     const navigate = useNavigate()
     const [pets, setPets] = useState([])
 
@@ -13,14 +25,14 @@ const Pets = ({loggedIn}) => {
         }
     }, [])
 
-    useEffect(()=>{
-        fetch(`${apiHost}/pets`)
-            .then((res) => res.json())
-            .then((pets) => {
-                setPets(pets)
-                console.log(pets)
-            })   
-    }, [])
+    // useEffect(()=>{
+    //     fetch(`${apiHost}/pets`)
+    //         .then((res) => res.json())
+    //         .then((pets) => {
+    //             setPets(pets)
+    //             console.log(pets)
+    //         })   
+    // }, [])
 
     function handleDelete(deletedPet){
         console.log(`${apiHost}/pets/${pets.id}`)

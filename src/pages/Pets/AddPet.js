@@ -2,58 +2,69 @@ import { useState } from "react"
 import { apiHost } from "../../Variables";
 
 
-const AddPet = () => {
-    const [petFormData, setPetFormData] = useState(
-        {
-            name: "",
-            breed: "",
-            image_url: "",
-            user_id: JSON.parse(localStorage.getItem('user') || false)?.id
-        }
-    )
-
-    function updateFormData(e){
-
-        setPetFormData(petFormData => {
-            return {...petFormData, [e.target.id]: e.target.value}
-        })
-
-    }
-
+const AddPet = ({addDoc, colRef}) => {
+    const form = document.getElementById('form')
     const handleForm = (e) => {
-        e.preventDefault();
-        console.log(petFormData)
+        e.preventDefault()
 
-        fetch(`${apiHost}/pets`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(petFormData)
-        })
-        .then(res => {
-            if(res.ok){
-                res.json().then((data) => {
-                    setPetFormData(
-                        {
-                            name: "",
-                            breed: "",
-                            image_url: "",
-                            user_id: JSON.parse(localStorage.getItem('user') || false)?.id
-                        }
-                    )
-                })
-            }else {
-                res.json().then(error => console.warn(error))
-            }
+        addDoc(colRef, {
+            title: form.title.value,
+
         })
     }
+
+
+    // const [petFormData, setPetFormData] = useState(
+    //     {
+    //         name: "",
+    //         breed: "",
+    //         image_url: "",
+    //         user_id: JSON.parse(localStorage.getItem('user') || false)?.id
+    //     }
+    // )
+
+    // function updateFormData(e){
+
+    //     setPetFormData(petFormData => {
+    //         return {...petFormData, [e.target.id]: e.target.value}
+    //     })
+
+    // }
+
+    // const handleForm = (e) => {
+    //     e.preventDefault();
+    //     console.log(petFormData)
+
+    //     fetch(`${apiHost}/pets`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify(petFormData)
+    //     })
+    //     .then(res => {
+    //         if(res.ok){
+    //             res.json().then((data) => {
+    //                 setPetFormData(
+    //                     {
+    //                         name: "",
+    //                         breed: "",
+    //                         image_url: "",
+    //                         user_id: JSON.parse(localStorage.getItem('user') || false)?.id
+    //                     }
+    //                 )
+    //             })
+    //         }else {
+    //             res.json().then(error => console.warn(error))
+    //         }
+    //     })
+    // }
 
     return ( 
         <>
             <div className="flex flex-col justify-center items-center min-h-screen md:my-8 my-4 mx-6">
                 <h1 className="font-bold uppercase md:text-2xl text-xl text-gray-800 md:mb-16 mb-8">Add New Porject</h1>
-                <form onSubmit={handleForm}>
+                <form onSubmit={handleForm} id='form'>
                     <div>
                         <label className='form-label'> 
                             Pet name
@@ -64,7 +75,7 @@ const AddPet = () => {
                             class="input-form"
                             placeholder="Pet name"
                             value={petFormData.name}
-                            onChange={updateFormData} 
+                            // onChange={updateFormData} 
                         />
                     </div>
                     <div>
@@ -77,7 +88,7 @@ const AddPet = () => {
                             class="input-form"
                             placeholder="Breed"
                             value={petFormData.breed}
-                            onChange={updateFormData} 
+                            // onChange={updateFormData} 
                         />
                     </div>
                     <div>
@@ -90,7 +101,7 @@ const AddPet = () => {
                             rows='3'
                             placeholder="Image URL"
                             value={petFormData.image_url}
-                            onChange={updateFormData}
+                            // onChange={updateFormData}
                         />
                     </div>
                     <button className="btn btn-secondary w-full">
