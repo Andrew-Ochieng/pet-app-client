@@ -1,27 +1,25 @@
 import { useState } from "react"
-import { apiHost } from "../../Variables";
+// import { apiHost } from "../../Variables";
+import { addDoc } from "firebase/firestore"
+import { colRef } from "../../Firebase"
 
+const AddPet = () => {
+    const [petName, setPetName] = useState("")
+    const [petBreed, setPetBreed] = useState("")
+    const [petImage, setPetImage] = useState("")
 
-const AddPet = ({addDoc, colRef}) => {
-    const form = document.getElementById('form')
+    
     const handleForm = (e) => {
         e.preventDefault()
 
         addDoc(colRef, {
-            title: form.title.value,
+            name: petName,
+            breed: petBreed,
+            image_url: petImage
 
         })
+        
     }
-
-
-    // const [petFormData, setPetFormData] = useState(
-    //     {
-    //         name: "",
-    //         breed: "",
-    //         image_url: "",
-    //         user_id: JSON.parse(localStorage.getItem('user') || false)?.id
-    //     }
-    // )
 
     // function updateFormData(e){
 
@@ -74,8 +72,8 @@ const AddPet = ({addDoc, colRef}) => {
                             type="text"  
                             class="input-form"
                             placeholder="Pet name"
-                            value={petFormData.name}
-                            // onChange={updateFormData} 
+                            value={petName}
+                            onChange={(e) => setPetName(e.target.value)} 
                         />
                     </div>
                     <div>
@@ -87,8 +85,8 @@ const AddPet = ({addDoc, colRef}) => {
                             type="text" 
                             class="input-form"
                             placeholder="Breed"
-                            value={petFormData.breed}
-                            // onChange={updateFormData} 
+                            value={petBreed}
+                            onChange={(e) => setPetBreed(e.target.value)} 
                         />
                     </div>
                     <div>
@@ -100,8 +98,8 @@ const AddPet = ({addDoc, colRef}) => {
                             class="textarea textarea-info w-full my-4" 
                             rows='3'
                             placeholder="Image URL"
-                            value={petFormData.image_url}
-                            // onChange={updateFormData}
+                            value={petImage}
+                            onChange={(e) => setPetImage(e.target.value)}
                         />
                     </div>
                     <button className="btn btn-secondary w-full">

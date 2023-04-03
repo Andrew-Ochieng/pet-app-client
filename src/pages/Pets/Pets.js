@@ -1,53 +1,42 @@
 import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom";
-import { apiHost } from "../../Variables";
+// import { apiHost } from "../../Variables";
+import { getDocs } from "firebase/firestore"
+import { ref, remove} from "firebase/database"
+import { colRef, db } from "../../Firebase"
+import { uid } from "uid";
 
+const Pets = ({loggedIn}) => {
+    const [pets, setPets] = useState([])
 
-const Pets = ({loggedIn, colRef, getDocs}) => {
-    getDocs(colRef)
+    useEffect(() => {
+        getDocs(colRef)
         .then((snapshot) => {
             // console.log(snapshot.docs)
             let pets = []
             snapshot.docs.forEach((doc) => {
             pets.push({...doc.data(), id: doc.id})
             })
-            console.log(pets)
+            // console.log(pets)
             setPets(pets)
         })
+    }, [])
 
 
     const navigate = useNavigate()
-    const [pets, setPets] = useState([])
-
-    useEffect(()=>{
+    useEffect(() => {
         if(!loggedIn){
             navigate('/home')
         }
     }, [])
 
-    // useEffect(()=>{
-    //     fetch(`${apiHost}/pets`)
-    //         .then((res) => res.json())
-    //         .then((pets) => {
-    //             setPets(pets)
-    //             console.log(pets)
-    //         })   
-    // }, [])
 
-    function handleDelete(deletedPet){
-        console.log(`${apiHost}/pets/${pets.id}`)
-        fetch(`${apiHost}/pets/${deletedPet.id}`, {
-            method: 'DELETE'
-        })
-        .then((res) => {
-            if(res.ok){
-                const newPetsList = pets.filter((pet) => pet.id !== deletedPet.id)
-                setPets(newPetsList)
-            } else {
-                res.json().then(error => console.warn(error))
-            }   
-        }) 
+    // delete pet
+    const handleDelete = (pet) => {
+        const uuid = uid()
+        remove(ref(db, `/${pet.uuid}`))
     }
+
 
     return ( 
         <div className="min-h-screen md:px-24 px-8 py-20">
@@ -71,17 +60,17 @@ const Pets = ({loggedIn, colRef, getDocs}) => {
                             <th></th>
                         </tr>
                     }
-                    {pets.map((pet) => (
-                            <tr key={pet.id} className="border-x-solid border border-sky">
+                    {pets.map((pet, id) => (
+                            <tr key={id} className="border-x-solid border border-sky">
                                 <td className="px-3" >{pet.name}</td>
                                 <td className="px-3">{pet.breed}</td>
-                                <td className="px-3 max-w-sm">
-                                    <img src={pet.image_url} alt='pet-image'/>
+                                <td className="px-3 py-4 max-w-sm">
+                                    <img className="md:w-24 w-12" src={pet.image_url} alt='pet-image'/>
                                 </td>
                                 <td className="px-5">
                                     <button 
                                         className="border-solid border border-blue py-2 px-4 rounded-md bg-green-300 hover:bg-green-400 w-full" 
-                                        onClick={()=>handleDelete(pet)}
+                                        onClick={() => handleDelete(pet)}
                                     >
                                         Delete
                                     </button>
